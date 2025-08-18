@@ -31,3 +31,22 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Arquivos de Ambiente e Segurança ###
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.env
+application-local.properties
+application-dev.properties
+application-prod.properties
+
+### Logs ###
+*.log
+logs/
+
+### Arquivos temporários ###
+*.tmp
+*.temp
