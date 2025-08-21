@@ -1,18 +1,23 @@
 package com.nosde.mareestudos.domain.entity;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-import com.nosde.mareestudos.domain.enums.OrigemPlanoEnum;
+import com.nosde.mareestudos.domain.enums.OrigemPlano;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -27,23 +32,38 @@ public class Plano {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private OrigemPlanoEnum origem;
+    @Column(nullable = false)
+    private OrigemPlano origem;
 
-    @Column
     private LocalDate dataProva;
 
-    @Column
     private String corHex;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
 
     @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
-    @Column(nullable = false)
-    private String descricao;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Usuario usuario;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Edital edital;
+
+    @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanoCargo> cargos;
+
+    @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanoDisciplina> disciplinas;
+
+    @OneToMany(mappedBy = "plano")
+    private List<SessaoEstudo> sessoes;
+
+    @OneToMany(mappedBy = "plano")
+    private List<ResolucaoQuestao> resolucoes;
+
+    @OneToMany(mappedBy = "plano")
+    private List<Simulado> simulados;
 }

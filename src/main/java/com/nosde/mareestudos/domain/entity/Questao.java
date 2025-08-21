@@ -3,7 +3,6 @@ package com.nosde.mareestudos.domain.entity;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,23 +15,34 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "disciplinas_catalogo")
+@Table(name = "questoes")
 @Data
-public class DisciplinaCatalogo {
+public class Questao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
-    private String nome;
+    private String fonte;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String enunciado;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String alternativasJson;
 
     @Column(nullable = false)
-    private Integer ordem;
+    private String gabaritoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Edital edital;
+    private DisciplinaCatalogo disciplina;
 
-    @OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TopicoCatalogo> topicos;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TopicoCatalogo topico;
+
+    @OneToMany(mappedBy = "questao")
+    private List<ResolucaoQuestao> resolucoes;
+
+    @OneToMany(mappedBy = "questao")
+    private List<SimuladoQuestao> simulados;
 }
