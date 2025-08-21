@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import com.nosde.mareestudos.domain.enums.GeneroEnum;
+import com.nosde.mareestudos.domain.enums.Genero;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,21 +40,14 @@ public class Usuario {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String senha;
-
-    @Column(nullable = false)
     private LocalDate aniversario;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private GeneroEnum genero = GeneroEnum.NAO_INFORMADO;
+    private Genero genero = Genero.NAO_INFORMADO;
 
-    @Column
     private String cidade;
-    @Column
     private String uf;
-    @Column
     private String fotoUrl;
 
     @Column(nullable = false, updatable = false)
@@ -62,9 +55,6 @@ public class Usuario {
 
     @Column(nullable = false)
     private Instant updatedAt;
-
-    @Column(nullable = false)
-    private boolean ativo = true;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Plano> planos;

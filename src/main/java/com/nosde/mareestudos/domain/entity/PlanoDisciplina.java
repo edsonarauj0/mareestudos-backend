@@ -16,9 +16,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "disciplinas_catalogo")
+@Table(name = "planos_disciplinas")
 @Data
-public class DisciplinaCatalogo {
+public class PlanoDisciplina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,9 +30,20 @@ public class DisciplinaCatalogo {
     @Column(nullable = false)
     private Integer ordem;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Edital edital;
+    private String corHex;
 
-    @OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TopicoCatalogo> topicos;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Plano plano;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DisciplinaCatalogo disciplinaCatalogo;
+
+    @OneToMany(mappedBy = "planoDisciplina", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanoTopico> topicos;
+
+    @OneToMany(mappedBy = "planoDisciplina")
+    private List<SessaoEstudo> sessoes;
+
+    @OneToMany(mappedBy = "planoDisciplina")
+    private List<ResolucaoQuestao> resolucoes;
 }

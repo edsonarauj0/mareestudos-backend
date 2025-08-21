@@ -9,24 +9,33 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 
 @Entity
-@Table(name = "planos_cargos", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"plano_id", "cargo_id"})
-})
+@Table(name = "resolucoes_questoes")
 @Data
-public class PlanoCargo {
+public class ResolucaoQuestao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    private boolean correta;
+
+    private Integer tempoSeg;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Plano plano;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Cargo cargo;
+    private Questao questao;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SessaoEstudo sessao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PlanoDisciplina planoDisciplina;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PlanoTopico planoTopico;
 }
